@@ -1,6 +1,6 @@
 describe JenkinsCron::Schedule do
   it "is a first test" do
-    schedule = JenkinsCron::Schedule.new do
+    schedule = JenkinsCron::Schedule.new :group1 do
       job :test1 do
         shell_command "echo test1"
         timer "* * * * *"
@@ -11,6 +11,8 @@ describe JenkinsCron::Schedule do
         timer "* * * * *"
       end
     end
+
+    expect(schedule.name).to eq(:group1)
 
     expect(schedule.job(:test1)).to be_true
     expect(schedule.job(:test2)).to be_true
