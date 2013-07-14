@@ -1,9 +1,10 @@
 class JenkinsCron::Job
   attr_reader :name, :params
 
-  def initialize(name, &block)
+  def initialize(schedule, name, &block)
+    @schedule = schedule
     @name = name
-    @params = { name: @name.to_s }
+    @params = { name: "#{@schedule.name}-#{@name}" }
     instance_eval(&block)
     @params.freeze
   end

@@ -4,7 +4,7 @@ class JenkinsCron::Schedule
   def initialize(name, &block)
     @name = name
     @jobs = {}
-    instance_eval(&block)
+    instance_eval(&block) if block_given?
   end
 
   def self.load(name, file_path)
@@ -20,7 +20,7 @@ class JenkinsCron::Schedule
 
   def job(job_name, &block)
     if block_given? # initialize
-      @jobs[job_name] = JenkinsCron::Job.new(job_name, &block)
+      @jobs[job_name] = JenkinsCron::Job.new(self, job_name, &block)
     else
       @jobs[job_name]
     end
