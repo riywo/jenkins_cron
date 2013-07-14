@@ -11,6 +11,11 @@ class JenkinsCron::CLI < Thor
     schedule.each_jobs do |job|
       client.job.create_or_update_freestyle(job.params.dup)
     end
+
+    client.view.create_list_view(
+      name: name,
+      regex: "^#{name}-.+",
+    ) unless client.view.exists?(name)
   end
 
   desc "version", "Display jenkins_cron version"
