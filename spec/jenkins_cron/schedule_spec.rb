@@ -1,5 +1,5 @@
 describe JenkinsCron::Schedule do
-  it "is a first test" do
+  it "create a simple example of schedule" do
     schedule = JenkinsCron::Schedule.new :group1 do
       job :test1 do
         shell_command "echo test1"
