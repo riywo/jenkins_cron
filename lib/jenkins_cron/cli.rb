@@ -1,6 +1,5 @@
 require "thor"
 require "yaml"
-require "jenkins_api_client"
 
 class JenkinsCron::CLI < Thor
   class_option :config, type: :string, aliases: "-c", default: "config/jenkins.yml", desc: "Jenkins config file"
@@ -8,14 +7,7 @@ class JenkinsCron::CLI < Thor
   desc "update NAME", "Update Jenkins using config/schedule/NAME.rb"
   def update(name)
     schedule = JenkinsCron::Schedule.load(name, schedule_file(name))
-    schedule.each_jobs do |job|
-      client.job.create_or_update_freestyle(job.params.dup)
-    end
-
-    client.view.create_list_view(
-      name: name,
-      regex: "^#{name}-.+",
-    ) unless client.view.exists?(name)
+    jenkins.update(schedule)
   end
 
   desc "version", "Display jenkins_cron version"
@@ -26,8 +18,8 @@ class JenkinsCron::CLI < Thor
 
   private
 
-  def client
-    @client ||= JenkinsApi::Client.new(config)
+  def jenkins
+    @jenkins ||= JenkinsCron::Jenkins.new(config)
   end
 
   def config
