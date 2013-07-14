@@ -3,8 +3,8 @@ class JenkinsCron::Job
 
   def initialize(name, &block)
     @name = name
-    @params = {}
-    instance_eval(&block) if block_given?
+    @params = { name: @name.to_s }
+    instance_eval(&block)
     @params.freeze
   end
 

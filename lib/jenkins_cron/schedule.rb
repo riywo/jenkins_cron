@@ -4,7 +4,18 @@ class JenkinsCron::Schedule
   def initialize(name, &block)
     @name = name
     @jobs = {}
-    instance_eval(&block) if block_given?
+    instance_eval(&block)
+  end
+
+  def self.load(name, file_path)
+    block = File.read(file_path)
+    new(name) { eval(block) }
+  end
+
+  def each_jobs
+    @jobs.each do |name, job|
+      yield job
+    end
   end
 
   def job(job_name, &block)
