@@ -2,13 +2,13 @@ describe JenkinsCron::Schedule do
   it "create a simple example of schedule" do
     schedule = JenkinsCron::Schedule.new :group1 do
       job :test1 do
-        shell_command "echo test1"
-        timer "* * * * *"
+        options :shell_command, "echo test1"
+        options :timer, "* * * * *"
       end
 
       job :test2 do
-        shell_command "echo test2"
-        timer "* * * * *"
+        options :shell_command, "echo test2"
+        options :timer, "* * * * *"
       end
     end
 

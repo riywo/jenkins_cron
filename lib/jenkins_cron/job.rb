@@ -11,7 +11,7 @@ class JenkinsCron::Job
 
   private
 
-  def method_missing(key, value)
+  def options(key, value)
     @params[key] = value
   end
 end
