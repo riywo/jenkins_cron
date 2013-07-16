@@ -1,14 +1,11 @@
 class JenkinsCron::Job::Command
   def initialize(command, opts = {})
     @command = command
-    @opts = {}
-    @opts[:env]  = opts[:env]
-    @opts[:user] = opts[:user]
-    @opts[:cwd]  = opts[:cwd]
+    @opts    = opts
   end
 
   def shell_command
-    script = export_env
+    script  = export_env
     script += "#{sh} -c '#{command}'\n"
   end
 
@@ -25,15 +22,16 @@ class JenkinsCron::Job::Command
 
   def sh
     if @opts[:user]
-      "su - #{@opts[:user]} -l"
+      #TODO use each user's shell
+      "sudo -u #{@opts[:user]} -H bash -l"
     else
-      "sh"
+      "bash"
     end
   end
 
   def cd
     if @opts[:cwd]
-      "cd #{@opts[:cwd]} && "
+      "cd #{@opts[:cwd].shellescape} && "
     else
       ""
     end

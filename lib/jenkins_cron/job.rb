@@ -11,6 +11,11 @@ class JenkinsCron::Job
 
   private
 
+  def command(command, opts = {})
+    cmd = JenkinsCron::Job::Command.new(command, opts)
+    @params[:shell_command] = cmd.shell_command
+  end
+
   def options(key, value)
     @params[key] = value
   end
