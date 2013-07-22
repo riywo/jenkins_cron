@@ -1,4 +1,5 @@
 require "active_support/all"
+require "chronic"
 
 class JenkinsCron::Job::Timer
   def initialize(opts = {}, &block)
@@ -20,6 +21,7 @@ class JenkinsCron::Job::Timer
 
   def initialize_with_opts(opts)
     initialize_every(opts[:every]) if opts.has_key?(:every)
+    initialize_at(opts[:at])       if opts.has_key?(:at)
   end
 
   def initialize_every(seconds)
@@ -42,6 +44,12 @@ class JenkinsCron::Job::Timer
         month every: (seconds/60/60/24/30).round
       else
     end
+  end
+
+  def initialize_at(time)
+    at = time.is_a?(String) ? (Chronic.parse(time) || 0) : time
+    hour at.hour
+    min  at.min
   end
 
   def min(*args)

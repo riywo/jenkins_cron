@@ -27,4 +27,9 @@ describe JenkinsCron::Job::Timer do
     timer = JenkinsCron::Job::Timer.new every: 2.weeks
     expect(timer.to_s).to eq("H H H/14 * *")
   end
+
+  it "is a fifth test" do
+    timer = JenkinsCron::Job::Timer.new every: 1.weeks, at: "10:00 pm"
+    expect(timer.to_s).to eq("0 22 H/7 * *")
+  end
 end
