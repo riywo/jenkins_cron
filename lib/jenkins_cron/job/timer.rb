@@ -99,33 +99,32 @@ class JenkinsCron::Job::Timer
   class Field
     def initialize(*args)
       @opts = args.last.is_a?(Hash) ? args.pop : {}
+      @every = @opts[:every] if @opts.has_key? :every
 
       case args.length
         when 0
-          @string = "*"
-          @string = "H/#{@opts[:every]}" if @opts.has_key? :every
+          @value = @every.nil? ? "*" : "H"
         when 1
-          case args[0]
-            when Range
-              @range = args[0]
-              @string = "H(#{args[0].first}-#{args[0].last})"
-              @string += "/#{@opts[:every]}" if @opts.has_key? :every
-            when Array
-              @array = args[0]
-              @string = args[0].join(",")
-            when :once
-              @string = "H"
-              @string += "/#{@opts[:every]}" if @opts.has_key? :every
-            else
-              @string = "#{args[0]}"
-          end
+          @value = args[0] == :once ? "H" : args[0]
         else
-          @array = args
-          @string = args.join(",")
+          @value = args
       end
     end
 
     def to_s
+      unless @string
+        @string = case @value
+          when Range
+            "H(#{@value.first}-#{@value.last})"
+          when Array
+            @value.join(",")
+          when Fixnum
+            @value.to_s
+          when "H","*"
+            @value
+        end
+        @string += "/#{@every}" unless @every.nil?
+      end
       @string
     end
   end
