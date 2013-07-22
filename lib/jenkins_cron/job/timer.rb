@@ -1,11 +1,14 @@
+require "active_support/all"
+
 class JenkinsCron::Job::Timer
-  def initialize(&block)
+  def initialize(opts = {}, &block)
     @min   = Field.new
     @hour  = Field.new
     @day   = Field.new
     @month = Field.new
     @day_w = Field.new
-    instance_eval(&block) if block_given?
+    initialize_with_opts(opts) if opts.size > 0
+    instance_eval(&block)      if block_given?
   end
 
   def to_s
@@ -14,6 +17,32 @@ class JenkinsCron::Job::Timer
   alias :inspect :to_s
 
   private
+
+  def initialize_with_opts(opts)
+    initialize_every(opts[:every]) if opts.has_key?(:every)
+  end
+
+  def initialize_every(seconds)
+    case seconds
+      when 0.seconds...1.minute
+        raise ArgumentError, "'every' must be in minutes or higher"
+      when 1.minute...1.hour
+        min   every: seconds/60
+      when 1.hour...1.day
+        min   :once
+        hour  every: (seconds/60/60).round
+      when 1.day...1.month
+        min   :once
+        hour  :once
+        day   every: (seconds/60/60/24).round
+      when 1.month..12.months
+        min   :once
+        hour  :once
+        day   :once
+        month every: (seconds/60/60/24/30).round
+      else
+    end
+  end
 
   def min(*args)
     @min = Field.new(*args)
@@ -37,10 +66,7 @@ class JenkinsCron::Job::Timer
 
   class Field
     def initialize(*args)
-      @opts = {}
-      if args.last.is_a? Hash
-        @opts = args.pop
-      end
+      @opts = args.last.is_a?(Hash) ? args.pop : {}
 
       case args.length
         when 0
