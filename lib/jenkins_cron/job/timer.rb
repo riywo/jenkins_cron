@@ -2,6 +2,7 @@ require "active_support/all"
 require "chronic"
 
 class JenkinsCron::Job::Timer
+  OPTS = [:every, :at, :min]
   def initialize(opts = {}, &block)
     @min   = Field.new
     @hour  = Field.new
@@ -20,8 +21,10 @@ class JenkinsCron::Job::Timer
   private
 
   def initialize_with_opts(opts)
-    initialize_every(opts[:every]) if opts.has_key?(:every)
-    initialize_at(opts[:at])       if opts.has_key?(:at)
+    opts.each do |opt, value|
+      next unless OPTS.include?(opt)
+      send("initialize_#{opt}", value)
+    end
   end
 
   def initialize_every(seconds)
@@ -50,6 +53,10 @@ class JenkinsCron::Job::Timer
     at = time.is_a?(String) ? (Chronic.parse(time) || 0) : time
     hour at.hour
     min  at.min
+  end
+
+  def initialize_min(time)
+    min time
   end
 
   def min(*args)
