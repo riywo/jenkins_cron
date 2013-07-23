@@ -7,17 +7,12 @@ class JenkinsCron::Job::Timer
   WEEKDAY = [:Monday, :Tuesday, :Wednesday, :Thursday, :Friday]
   WEEKEND = [:Sunday, :Saturday]
   def initialize(opts = {}, &block)
-    @min   = Field.new
-    @hour  = Field.new
-    @day   = Field.new
-    @month = Field.new
-    @day_w = Field.new
     initialize_with_opts(opts) if opts.size > 0
     instance_eval(&block)      if block_given?
   end
 
   def to_s
-    "#{@min} #{@hour} #{@day} #{@month} #{@day_w}"
+    "#{min} #{hour} #{day} #{month} #{day_w}"
   end
   alias :inspect :to_s
 
@@ -77,23 +72,28 @@ class JenkinsCron::Job::Timer
   end
 
   def min(*args)
-    @min = Field.new(*args)
+    @min = Field.new(*args) if(@min.nil? or args.length > 0)
+    @min
   end
 
   def hour(*args)
-    @hour = Field.new(*args)
+    @hour = Field.new(*args) if(@hour.nil? or args.length > 0)
+    @hour
   end
 
   def day(*args)
-    @day = Field.new(*args)
+    @day = Field.new(*args) if(@day.nil? or args.length > 0)
+    @day
   end
 
   def month(*args)
-    @month = Field.new(*args)
+    @month = Field.new(*args) if(@month.nil? or args.length > 0)
+    @month
   end
 
   def day_w(*args)
-    @day_w = Field.new(*args)
+    @day_w = Field.new(*args) if(@day_w.nil? or args.length > 0)
+    @day_w
   end
 
   class Field
