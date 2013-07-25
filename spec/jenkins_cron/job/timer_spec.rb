@@ -19,8 +19,8 @@ describe JenkinsCron::Job::Timer do
   end
 
   it "is a third test" do
-    timer = JenkinsCron::Job::Timer.new every: 3.hours
-    expect(timer.to_s).to eq("H H/3 * * *")
+    timer = JenkinsCron::Job::Timer.new every: 1.hour
+    expect(timer.to_s).to eq("H * * * *")
   end
 
   it "is a forth test" do

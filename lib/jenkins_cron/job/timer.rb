@@ -103,7 +103,7 @@ class JenkinsCron::Job::Timer
 
       case args.length
         when 0
-          @value = @every.nil? ? "*" : "H"
+          @value = (@every.nil? or @every == 1) ? "*" : "H"
         when 1
           @value = args[0] == :once ? "H" : args[0]
         else
@@ -123,7 +123,7 @@ class JenkinsCron::Job::Timer
           when "H","*"
             @value
         end
-        @string += "/#{@every}" unless @every.nil?
+        @string += "/#{@every}" if (!@every.nil? and @every != 1)
       end
       @string
     end
