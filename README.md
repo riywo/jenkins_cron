@@ -57,6 +57,13 @@ TODO: Write documentation
 * job cascading
 * more tests
 
+## Thanks to
+
+This module is inspired by [whenever](https://github.com/javan/whenever).
+
+This module uses [jenkins_api_client](https://github.com/arangamani/jenkins_api_client).
+
+Many thanks!
 
 ## Contributing
 
