@@ -57,4 +57,25 @@ describe JenkinsCron::Job::Timer do
     timer = JenkinsCron::Job::Timer.new every: 1.day, month: 4
     expect(timer.to_s).to eq("H H * 4 *")
   end
+
+  it "is a eleventh test" do
+    timer = JenkinsCron::Job::Timer.new once_an_hour: 10
+    expect(timer.to_s).to eq("H 10 * * *")
+  end
+
+  it "is a twelfth test" do
+    timer = JenkinsCron::Job::Timer.new once_an_hour: [3,6,12]
+    expect(timer.to_s).to eq("H 3,6,12 * * *")
+  end
+
+  it "is a thirteenth test" do
+    timer = JenkinsCron::Job::Timer.new once_a_day: [3,6,12], hour: 10
+    expect(timer.to_s).to eq("H 10 3,6,12 * *")
+  end
+
+  it "is a fourteenth test" do
+    timer = JenkinsCron::Job::Timer.new once_a_month: [3,6,12], day: 15
+    expect(timer.to_s).to eq("H H 15 3,6,12 *")
+  end
+
 end
