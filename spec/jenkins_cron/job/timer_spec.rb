@@ -78,4 +78,8 @@ describe JenkinsCron::Job::Timer do
     expect(timer.to_s).to eq("H H 15 3,6,12 *")
   end
 
+  it "is a fifteenth test" do
+    timer = JenkinsCron::Job::Timer.new once_a_day_w: [:Monday, :Friday]
+    expect(timer.to_s).to eq("H H * * 1,5")
+  end
 end
