@@ -1,5 +1,7 @@
 # JenkinsCron
 
+[![Build Status](https://travis-ci.org/riywo/jenkins_cron.png?branch=master)](https://travis-ci.org/riywo/jenkins_cron)
+
 Simple DSL to define Jenkins scheduled jobs.
 
 ## Installation
