@@ -2,7 +2,7 @@ require "active_support/all"
 require "chronic"
 
 class JenkinsCron::Job::Timer
-  OPTS = [:every, :at, :min]
+  OPTS = [:every, :at, :min, :month]
   DAYS_W = [:Sunday, :Monday, :Tuesday, :Wednesday, :Thursday, :Friday, :Saturday]
   WEEKDAY = [:Monday, :Tuesday, :Wednesday, :Thursday, :Friday]
   WEEKEND = [:Sunday, :Saturday]
@@ -69,6 +69,10 @@ class JenkinsCron::Job::Timer
 
   def initialize_min(minute)
     min minute
+  end
+
+  def initialize_month(m)
+    month m
   end
 
   def min(*args)
