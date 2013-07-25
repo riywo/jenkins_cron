@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = JenkinsCron::VERSION
   spec.authors       = ["Ryosuke IWANAGA"]
   spec.email         = ["riywo.jp@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{A DSL for Jenkins cron job}
+  spec.summary       = %q{Simple DSL to define Jenkins scheduled jobs}
+  spec.homepage      = "https://github.com/riywo/jenkins_cron"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

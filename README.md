@@ -1,6 +1,6 @@
 # JenkinsCron
 
-TODO: Write a gem description
+Simple DSL to define Jenkins scheduled jobs.
 
 ## Installation
 
@@ -18,7 +18,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ cat config/jenkins.yml
+    server_url: "http://jenkins.dev"
+
+    $ cat config/schedule/foo.rb
+    job :test1 do
+      command "whoami", user: "riywo"
+      timer every: 3.minute
+    end
+
+    $ jenkins_cron update foo
+    I, [2013-07-25T04:33:41.887344 #52816]  INFO -- : Obtaining jobs matching filter 'foo-test1'
+    I, [2013-07-25T04:33:41.887470 #52816]  INFO -- : GET /api/json
+    I, [2013-07-25T04:33:42.205541 #52816]  INFO -- : Posting the config.xml of 'foo-test1'
+    I, [2013-07-25T04:33:42.205642 #52816]  INFO -- : GET /api/json
+    I, [2013-07-25T04:33:42.228267 #52816]  INFO -- : POST /job/foo-test1/config.xml
+    I, [2013-07-25T04:33:42.955815 #52816]  INFO -- : Obtaining views based on filter 'foo'
+    I, [2013-07-25T04:33:42.955938 #52816]  INFO -- : GET /api/json
+
+## DSL
+
+TODO: Write documentation
 
 ## Contributing
 
