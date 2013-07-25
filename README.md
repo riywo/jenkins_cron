@@ -18,14 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
+First, write a `jenkins.yml` to use `jenkins_api_client`. See also [a sample yaml file on `jenkins_api_client`](https://github.com/arangamani/jenkins_api_client/blob/master/config/login.yml.example).
+
     $ cat config/jenkins.yml
     server_url: "http://jenkins.dev"
+
+Next, create a directory `config/schedule` and write DSL.
 
     $ cat config/schedule/foo.rb
     job :test1 do
       command "whoami", user: "riywo"
       timer every: 3.minute
     end
+
+Then, run `jenkins_cron update` command.
 
     $ jenkins_cron update foo
     I, [2013-07-25T04:33:41.887344 #52816]  INFO -- : Obtaining jobs matching filter 'foo-test1'
@@ -39,6 +45,18 @@ Or install it yourself as:
 ## DSL
 
 TODO: Write documentation
+
+## TODO
+
+* CLI sub command
+    * update diff, confirm
+    * show scheduled jobs
+    * delete
+    * show timer examples
+        * 2013/7/15 22:00, 2013/7/15 23:00…
+* job cascading
+* more tests
+
 
 ## Contributing
 
